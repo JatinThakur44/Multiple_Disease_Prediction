@@ -11,11 +11,11 @@ from streamlit_option_menu import option_menu
 
 
 # loading the saved models
-diabetes_model = pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/diabetes_model.sav','rb'))
+diabetes_model = pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/diabites_model.sav','rb'))
 
 heart_disease_model=pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/heart_model.sav','rb'))
 
-kidney_model=pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/kidney_disease.sav','rb'))
+kidney_model=pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/kidney_model.sav','rb'))
 
 
 
