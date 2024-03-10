@@ -8,14 +8,16 @@ Created on Tue May 16 00:36:03 2023
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
+import os
 
-
-# loading the saved models
-diabetes_model = pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/diabites_model.sav','rb'))
-
-heart_disease_model=pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/heart_model.sav','rb'))
-
-kidney_model=pickle.load(open('C:/Users/jatin/PycharmProjects/Multiple Disease Prediction/mdp/kidney_model.sav','rb'))
+# Construct the relative path to the model file
+model_relative_path = os.path.join(os.path.dirname(__file__), '..', 'mdp', 'diabites_model.sav')
+model_relative_path2 = os.path.join(os.path.dirname(__file__), '..', 'mdp', 'heart_model.sav')
+model_relative_path3 = os.path.join(os.path.dirname(__file__), '..', 'mdp', 'kidney_model.sav')
+# Load the model using the relative path
+diabetes_model = pickle.load(open(model_relative_path, 'rb'))
+heart_disease_model = pickle.load(open(model_relative_path2, 'rb'))
+kidney_model = pickle.load(open(model_relative_path3, 'rb'))
 
 
 
