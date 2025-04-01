@@ -7,14 +7,25 @@ from streamlit_option_menu import option_menu
 current_dir = os.path.dirname(__file__)
 
 # Define file paths relative to the current directory
-diabetes_model_path = os.path.join(current_dir, 'mdp', 'diabites_model.sav')
+diabetes_model_path = os.path.join(current_dir, 'mdp', 'diabetes_model.sav')  # Corrected filename
 heart_disease_model_path = os.path.join(current_dir, 'mdp', 'heart_model.sav')
 kidney_model_path = os.path.join(current_dir, 'mdp', 'kidney_model.sav')
 
-# Load the saved models
-diabetes_model = pickle.load(open(diabetes_model_path, 'rb'))
-heart_disease_model = pickle.load(open(heart_disease_model_path, 'rb'))
-kidney_model = pickle.load(open(kidney_model_path, 'rb'))
+# Load the saved models only if the files exist
+if os.path.exists(diabetes_model_path):
+    diabetes_model = pickle.load(open(diabetes_model_path, 'rb'))
+else:
+    st.error(f"Model file not found: {diabetes_model_path}")
+
+if os.path.exists(heart_disease_model_path):
+    heart_disease_model = pickle.load(open(heart_disease_model_path, 'rb'))
+else:
+    st.error(f"Model file not found: {heart_disease_model_path}")
+
+if os.path.exists(kidney_model_path):
+    kidney_model = pickle.load(open(kidney_model_path, 'rb'))
+else:
+    st.error(f"Model file not found: {kidney_model_path}")
 
 # Side bar for navigation
 with st.sidebar:
