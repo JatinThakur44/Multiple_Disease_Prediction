@@ -4,14 +4,14 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 # Get the directory of the current script
-current_dir = os.path.dirname(__file__)
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Define file paths relative to the current directory
-diabetes_model_path = os.path.join(current_dir, 'mdp', 'diabetes_model.sav')  # Corrected filename
+# Define file paths correctly
+diabetes_model_path = os.path.join(current_dir, 'mdp', 'diabites_model.sav')
 heart_disease_model_path = os.path.join(current_dir, 'mdp', 'heart_model.sav')
 kidney_model_path = os.path.join(current_dir, 'mdp', 'kidney_model.sav')
 
-# Load the saved models only if the files exist
+# Load models if they exist
 if os.path.exists(diabetes_model_path):
     diabetes_model = pickle.load(open(diabetes_model_path, 'rb'))
 else:
@@ -27,19 +27,17 @@ if os.path.exists(kidney_model_path):
 else:
     st.error(f"Model file not found: {kidney_model_path}")
 
-# Side bar for navigation
+# Sidebar navigation
 with st.sidebar:
-    selected = option_menu('Multiple disease prediction system',
-                           ['Diabetes Prediction', 'Heart disease prediction', 'Kidney disease prediction'],
+    selected = option_menu('Multiple Disease Prediction System',
+                           ['Diabetes Prediction', 'Heart Disease Prediction', 'Kidney Disease Prediction'],
                            icons=['activity', 'heart', 'person'],
                            default_index=0)
 
-# Diabetes prediction page
+# Diabetes Prediction Page
 if selected == "Diabetes Prediction":
-    # Page title
     st.title('Diabetes Prediction using ML')
-
-    # Input fields
+    
     col1, col2, col3 = st.columns(3)
     with col1:
         Pregnancies = st.text_input("Number of Pregnancies")
@@ -53,80 +51,59 @@ if selected == "Diabetes Prediction":
         BloodPressure = st.text_input("Blood Pressure Value")
         Age = st.text_input("Age of the person")
 
-    # Prediction
-    diab_diagnosis = ''
     if st.button("Diabetes Test Results"):
         diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin,
                                                     BMI, DiabetesPedigreeFunction, Age]])
+        st.success("The person is Diabetic" if diab_prediction[0] == 1 else "The person is Not Diabetic")
 
-        if diab_prediction[0] == 1:
-            diab_diagnosis = "The Person is Diabetic"
-        else:
-            diab_diagnosis = "The Person is Not Diabetic"
-    st.success(diab_diagnosis)
-
-# Heart disease prediction
-if selected == "Heart disease prediction":
-    st.title('Heart disease Prediction using ML')
-
+# Heart Disease Prediction Page
+if selected == "Heart Disease Prediction":
+    st.title('Heart Disease Prediction using ML')
+    
     col1, col2, col3 = st.columns(3)
     with col1:
-        age = st.text_input("Age of the Person")
-        chestpain = st.text_input("Chest Pain Value")
-        fastingbloodsugar = st.text_input("Fasting Blood Sugar value")
-        restecg = st.text_input("Restecg value")
-        exang = st.text_input("Exang value")
-        slope = st.text_input("Slope value")
-        thal = st.text_input("Thal value")
+        age = st.text_input("Age")
+        chestpain = st.text_input("Chest Pain Type")
+        fastingbloodsugar = st.text_input("Fasting Blood Sugar > 120 mg/dl")
+        restecg = st.text_input("Resting ECG Result")
+        exang = st.text_input("Exercise Induced Angina")
+        slope = st.text_input("Slope Value")
+        thal = st.text_input("Thalassemia Value")
     with col2:
-        sex = st.text_input("Male or Female")
-        trestbps = st.text_input("Trestbps Value")
-        cholestoral = st.text_input("Cholestoral Level")
-        thalach = st.text_input("Thalach value")
-        oldpeak = st.text_input("OldPeak value")
-        ca = st.text_input("Ca value")
-
-    # Prediction
-    heart_diagnosis = ''
+        sex = st.text_input("Sex (0 = Female, 1 = Male)")
+        trestbps = st.text_input("Resting Blood Pressure")
+        cholestoral = st.text_input("Serum Cholesterol")
+        thalach = st.text_input("Maximum Heart Rate")
+        oldpeak = st.text_input("ST Depression Induced by Exercise")
+        ca = st.text_input("Number of Major Vessels Colored by Fluoroscopy")
+    
     if st.button("Heart Disease Test Results"):
         heart_prediction = heart_disease_model.predict([[age, sex, chestpain, trestbps, cholestoral, fastingbloodsugar,
                                                          restecg, thalach, exang, oldpeak, slope, ca, thal]])
+        st.success("The person has heart disease" if heart_prediction[0] == 1 else "The person does not have heart disease")
 
-        if heart_prediction[0] == 1:
-            heart_diagnosis = "The Person is having heart disease"
-        else:
-            heart_diagnosis = "The Person is Not having heart disease"
-    st.success(heart_diagnosis)
-
-# Kidney disease prediction
-if selected == "Kidney disease prediction":
-    st.title('Kidney disease Prediction using ML')
-
+# Kidney Disease Prediction Page
+if selected == "Kidney Disease Prediction":
+    st.title('Kidney Disease Prediction using ML')
+    
     col1, col2, col3 = st.columns(3)
     with col1:
-        Bp = st.text_input("BP value")
-        Al = st.text_input("Al Value")
-        Rbc = st.text_input("RBC value")
-        Sc = st.text_input("Sc value")
-        Pot = st.text_input("Pot value")
-        Wbcc = st.text_input("Wbcc value")
+        Bp = st.text_input("Blood Pressure")
+        Al = st.text_input("Albumin")
+        Rbc = st.text_input("Red Blood Cells")
+        Sc = st.text_input("Serum Creatinine")
+        Pot = st.text_input("Potassium Level")
+        Wbcc = st.text_input("White Blood Cell Count")
     with col2:
-        Sg = st.text_input("Sg value")
-        Su = st.text_input("SU Value")
-        Bu = st.text_input("BU value")
-        Sod = st.text_input("Sod value")
-        Hemo = st.text_input("Hemo value")
-        Rbcc = st.text_input("Rbcc value")
+        Sg = st.text_input("Specific Gravity")
+        Su = st.text_input("Sugar")
+        Bu = st.text_input("Blood Urea")
+        Sod = st.text_input("Sodium Level")
+        Hemo = st.text_input("Hemoglobin Level")
+        Rbcc = st.text_input("Red Blood Cell Count")
     with col3:
-        Htn = st.text_input("Htn value")
+        Htn = st.text_input("Hypertension (0 = No, 1 = Yes)")
 
-    # Prediction
-    kidney_diagnosis = ''
     if st.button("Kidney Disease Test Results"):
         kidney_prediction = kidney_model.predict([[Bp, Sg, Al, Su, Rbc, Bu, Sc, Sod, Pot, Hemo, Wbcc, Rbcc, Htn]])
-
-        if kidney_prediction[0] == 1:
-            kidney_diagnosis = "The Person is having kidney disease"
-        else:
-            kidney_diagnosis = "The Person is Not having kidney disease"
-    st.success(kidney_diagnosis)
+        st.success("The person has kidney disease" if kidney_prediction[0] == 1 else "The person does not have kidney disease")
